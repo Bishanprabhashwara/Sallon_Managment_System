@@ -20,9 +20,8 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+
+Route::get('/', [ServicesController::class, 'getService'])->name('services.index');
 
 Auth::routes();
 
@@ -37,6 +36,7 @@ Route::get('/page', [HomeController::class, 'page'])->name('page');
 
 
 //Appointment
+//Route::get('/appointments/{id}', [AppointmentController::class, 'index'])->name('appointment.index')->middleware('auth');
 Route::get('/appointments', [AppointmentController::class, 'index'])->name('appointment.index')->middleware('auth');
 Route::get('/appointments/create', [AppointmentController::class, 'create'])->name('appointments.create')->middleware('auth');
 Route::post('/appointments', [AppointmentController::class, 'store'])->name('appointments.store')->middleware('auth');
@@ -44,7 +44,7 @@ Route::get('/appointments/{id}', [AppointmentController::class, 'show'])->name('
 Route::get('/appointments/{id}/edit', [AppointmentController::class, 'edit'])->name('appointments.edit')->middleware('auth');
 Route::put('/appointments/{id}', [AppointmentController::class, 'update'])->name('appointments.update')->middleware('auth');
 Route::delete('/appointments/{id}', [AppointmentController::class, 'destroy'])->name('appointments.destroy')->middleware('auth');
-
+Route::get('appointments/{id}/delete', [AppointmentController::class, 'deleteConfirm'])->name('appointments.deleteConfirm');
 //Services
 Route::get('/services', [ServicesController::class, 'index'])->name('services.index')->middleware('auth');
 Route::get('/services/create', [ServicesController::class, 'create'])->name('services.create')->middleware('auth');

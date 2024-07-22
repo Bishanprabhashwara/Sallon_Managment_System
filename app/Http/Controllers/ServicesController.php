@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Service;
+use App\Models\Report;
+use App\Models\Photo;
+
 class ServicesController extends Controller
 {
     public function index()
@@ -11,7 +14,14 @@ class ServicesController extends Controller
         $services = Service::all();
         return view('services.index', compact('services'));
     }
-
+    
+    public function getService()
+    {
+        $services = Service::all();
+        $report = Report::all();
+        $photos = Photo::latest()->get();
+        return view('welcome', compact('services','report','photos'));
+    }
     public function create()
     {
         return view('services.create');

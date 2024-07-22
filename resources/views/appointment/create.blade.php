@@ -9,6 +9,10 @@
     <form method="POST" action="{{ route('appointments.store') }}">
         @csrf
         <div class="form-group">
+            <label for="title">User Id:</label>
+            <input type="text" class="form-control" id="user_id" name="user_id" Value="{{ Auth::user()->id }}" required>
+        </div>
+        <div class="form-group">
             <label for="title">Title:</label>
             <input type="text" class="form-control" id="title" name="title" required>
         </div>

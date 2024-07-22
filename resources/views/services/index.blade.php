@@ -3,45 +3,44 @@
 @extends('layouts.app')
 
 @section('content')
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h1>Services</h1>
+            <a href="{{ route('services.create') }}" class="btn btn-primary">Create Service</a>
+        </div>
 
-<div class="container">
-    <h2>Services</h2>
-    @if(auth()->user()->is_admin == 1) 
-    <a href="{{ route('services.create') }}" class="btn btn-primary">Create New Service</a>
-    @endif
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Topic</th>
-                <th>Image</th>
-                <th>Description</th>
-                <th>Price</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach ($services as $service)
-            <tr>
-                <td>{{ $service->topic }}</td>
-                <td><img src="{{ asset('images/' . $service->image) }}" alt="Service Image" style="max-width: 100px;"></td>
-                <td>{{ $service->description }}</td>
-                <td>{{ $service->price }}</td>
-                <td>
-                @if(auth()->user()->is_admin == 1) 
-                <a href="{{ route('services.edit', $service->id) }}" class="btn btn-primary">Edit</a>
-@endif
-                    <form method="POST" action="{{ route('services.destroy', $service->id) }}" style="display: inline;">
-                        @csrf
-                        @method('DELETE')
-                        @if(auth()->user()->is_admin == 1) 
-                        <button type="submit" class="btn btn-danger">Delete</button>
-                        @endif
-                    </form>
-                </td>
-            </tr>
-            @endforeach
-        </tbody>
-    </table>
-</div>
-
+        @if ($services->isEmpty())
+            <p>No services found.</p>
+        @else
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Image</th>
+                        <th>Description</th>
+                        <th>Topic</th>
+                        <th>Price</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($services as $service)
+                        <tr>
+                            <td><img src="{{ asset('images/' . $service->image) }}" alt="{{ $service->description }}" style="max-width: 100px;"></td>
+                            <td>{{ $service->description }}</td>
+                            <td>{{ $service->topic }}</td>
+                            <td>{{ $service->price }}</td>
+                            <td>
+                                <a href="{{ route('services.edit', $service->id) }}" class="btn btn-primary btn-sm">Edit</a>
+                                <form action="{{ route('services.destroy', $service->id) }}" method="POST" style="display: inline-block;">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                                </form>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        @endif
+    </div>
 @endsection

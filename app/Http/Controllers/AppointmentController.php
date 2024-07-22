@@ -3,13 +3,18 @@
 namespace App\Http\Controllers;
 use App\Models\Appointment;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
 
 class AppointmentController extends Controller
 {
+    
     public function index()
     {
-        $appointments = Appointment::all();
-        return view('appointment.index', compact('appointments'));
+        $user = Auth::user();
+    $appointments = Appointment::where('user_id', $user->id)->get();
+    
+    return view('appointment.index', compact('appointments'));
     }
     public function create()
     {
@@ -19,6 +24,7 @@ class AppointmentController extends Controller
     public function store(Request $request)
     {
         $request->validate([
+            'user_id'=>'required',
             'title' => 'required',
             'date' => 'required|date',
             'time' => 'required',
@@ -61,6 +67,11 @@ class AppointmentController extends Controller
         $appointment->delete();
 
         return redirect()->route('appointment.index');
+    }
+    public function deleteConfirm($id)
+    {
+        $appointment = Appointment::findOrFail($id);
+        return view('appointments.delete', compact('appointment'));
     }
 
 }

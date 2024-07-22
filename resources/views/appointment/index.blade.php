@@ -1,17 +1,22 @@
+<!-- resources/views/appointment/index.blade.php -->
+
 @extends('layouts.app')
 
 @section('content')
+    <h1>Appointments</h1>
+ 
+    <a href="{{ route('appointments.create') }}" class="btn btn-primary mb-3">Create New Appointment</a>
 
-<div class="container">
-        <h2>Appointments</h2>
-        <a href="{{ route('appointments.create') }}" class="btn btn-primary">Create New Appointment</a>
+    @if ($appointments->isEmpty())
+        <p>No appointments found.</p>
+    @else
         <table class="table">
             <thead>
                 <tr>
-                    <th>Name</th>
+                    <th>Title</th>
                     <th>Date</th>
                     <th>Time</th>
-                    <th>Action</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -21,20 +26,15 @@
                         <td>{{ $appointment->date }}</td>
                         <td>{{ $appointment->time }}</td>
                         <td>
-                            <a href="{{ route('appointments.edit', $appointment->id) }}" class="btn btn-primary">Edit</a>
-                            <form action="{{ route('appointments.destroy', $appointment->id) }}" method="POST" style="display:inline">
+                            <form action="{{ route('appointments.destroy', $appointment->id) }}" method="POST" style="display: inline-block;">
                                 @csrf
                                 @method('DELETE')
-                                @if(auth()->user()->is_admin == 1) 
-                                <button type="submit" class="btn btn-danger">Delete</button>
-                                @endif
+                                <button type="submit" class="btn btn-danger btn-sm">Delete</button>
                             </form>
                         </td>
                     </tr>
                 @endforeach
             </tbody>
         </table>
-    </div>
+    @endif
 @endsection
-
-

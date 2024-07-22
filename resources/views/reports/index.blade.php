@@ -1,32 +1,42 @@
-<!-- resources/views/report/index.blade.php -->
+<!-- resources/views/reports/index.blade.php -->
 
-@extends('layouts.app')
+@extends('layouts.app') <!-- Assuming you have a layout file -->
 
 @section('content')
-
 <div class="container">
-    <h2>Reports</h2>
-    <a href="{{ route('reports.index') }}" class="btn btn-primary">Add New Reviews</a>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Subject</th>
-                <th>Message</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach ($report as $reports)
-            <tr>
-                <td>{{ $reports->name }}</td>
-                <td>{{ $reports->email }}</td>
-                <td>{{ $reports->subject }}</td>
-                <td>{{ $reports->message }}</td>
-            </tr>
-            @endforeach
-        </tbody>
-    </table>
-</div>
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">Reports</div>
 
+                <div class="card-body">
+                    @if (count($report) > 0)
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Subject</th>
+                                    <th>Message</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($report as $item)
+                                    <tr>
+                                        <td>{{ $item->name }}</td>
+                                        <td>{{ $item->email }}</td>
+                                        <td>{{ $item->subject }}</td>
+                                        <td>{{ $item->message }}</td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    @else
+                        <p>No reports found.</p>
+                    @endif
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection

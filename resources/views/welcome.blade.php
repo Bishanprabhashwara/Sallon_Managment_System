@@ -80,7 +80,7 @@
           <li><a class="nav-link scrollto" href="#testimonials">FeedBack</a></li>
           <li><a class="nav-link scrollto" href="#contact">Open Hour</a></li>
                     @if(auth()->check())
-            <li><a class="nav-link scrollto" href="{{ route('auth.home') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Dash Board</a></li>
+            <li><a class="nav-link scrollto" href="{{ route('auth.home') }}" >Dash Board</a></li>
 
           @else
               <li><a class="nav-link scrollto" href="{{ route('login') }}">Sign In</a></li>
@@ -143,24 +143,17 @@
         </div>
 
         <div class="row row-cols-1 row-cols-md-3 g-4">
-            <div class="col-md-4">
-              <div class="card">
-                <img src="assets/img/Gallery/gallery1.jpg" class="card-img-top" alt="..." width="900" height="500">
-              </div>
+        @if($photos->isEmpty())
+          No Photos available.
+            @else
+        @foreach ($photos as $image)
+        <div class="col-md-4">
+            <div class="card">
+                <img src="{{ asset('img/' . $image->image) }}" class="card-img-top"  style="width: 100%; height: 300px;">
             </div>
-
-            <div class="col-md-4">
-              <div class="card">
-                <img src="assets/img/Gallery/gallery3.jpg" class="card-img-top" alt="..." width="900" height="500">
-              </div>
-            </div>
-
-            <div class="col-md-4">
-              <div class="card">
-                <img src="assets/img/Gallery/gallery2.jpg" class="card-img-top" alt="..." width="900" height="500">
-              </div>
-            </div>
-
+        </div>
+        @endforeach
+@endif
           </div>
       </div>
     </section><!-- End Services Section -->
@@ -341,23 +334,28 @@
             <p class="section-description"></p>
           </div>
         </div>
-
+        @if($report->isEmpty())
+          No Reviews available.
+            @else
+        @foreach ($report as $reports)
         <div class="row">
           <div class="col-md-3">
             <div class="profile">
               <div class="pic"><img src="assets/img/client-1.jpg" alt=""></div>
-              <h4>Saul Goodman</h4>
-              <span>Lawless Inc</span>
+              <h4>{{ $reports->name }}</h4>
+              <span>{{ $reports->email }}</span>
             </div>
           </div>
           <div class="col-md-9">
             <div class="quote">
-              <b><img src="assets/img/quote_sign_left.png" alt=""></b> Proin iaculis purus consequat sem cure digni ssim donec porttitora entum suscipit rhoncus. Accusantium quam, ultricies eget id, aliquam eget nibh et. Maecen aliquam, risus at semper. <small><img src="assets/img/quote_sign_right.png" alt=""></small>
+              <b><img src="assets/img/quote_sign_left.png" alt=""></b> {{ $reports->message }}<small><img src="assets/img/quote_sign_right.png" alt=""></small>
             </div>
           </div>
         </div>
+        @endforeach
+        @endif
 
-        <div class="row">
+        <!-- <div class="row">
           <div class="col-md-9">
             <div class="quote">
               <b><img src="assets/img/quote_sign_left.png" alt=""></b> Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis architecto beatae. <small><img src="assets/img/quote_sign_right.png" alt=""></small>
@@ -370,7 +368,7 @@
               <span>Odeo Inc</span>
             </div>
           </div>
-        </div>
+        </div> -->
 
       </div>
     </section><!-- End Testimonials Section -->
@@ -395,50 +393,26 @@
             </div>
           </div-->
 
-          <div class="card-group">
-            <div class="card">
-              <img src="assets/img/service/1.jpeg" class="card-img-top" alt="...">
-              <div class="card-body">
-                <h5 class="card-title">Makeup</h5>
-                <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                <h4 class="card-text"><small class="text-body-secondary"><strong style="color: rgba(16, 15, 15, 0.852);">Rs:4000.00</strong></small></h4>
-                <a href="/login" class="btn btn-primary">BOOK NOW</a>
-              </div>
-            </div>
-            <div class="card">
-              <img src="assets/img/service/2.jpeg" class="card-img-top" alt="...">
-              <div class="card-body">
-                <h5 class="card-title">Hair Care</h5>
-                <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                <h4 class="card-text"><small class="text-body-secondary"><strong style="color: rgba(16, 15, 15, 0.852);">Rs:4000.00</strong></small></h4>
-                <a href="/login" class="btn btn-primary">BOOK NOW</a>
-              </div>
-            </div>
-            <div class="card">
-              <img src="assets/img/service/6.jpeg" class="card-img-top" alt="...">
-              <div class="card-body">
-                <h5 class="card-title">Skin Care</h5>
-                <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This card has even  to show that equal height action.</p>
-                <h4 class="card-text"><small class="text-body-secondary"><strong style="color: rgba(16, 15, 15, 0.852);">Rs:4000.00</strong></small></h4>
-                <a href="/login" class="btn btn-primary">BOOK NOW</a>
-              </div>
-            </div>
-            <div class="card">
-                <img src="assets/img/service/7.jpeg" class="card-img-top" alt="...">
+          <div class="row row-cols-1 row row-cols-md-3 g-1">
+          @if($services->isEmpty())
+          No services available.
+            @else
+            @foreach ($services as $service)
+
+
+            <div class="card mb-4 mr-5">
+                <img src="{{ asset('images/' . $service->image) }}" class="card-img-top" alt="{{ $service->topic }}" style="width: 100%; height: 200px; object-fit: cover;">
                 <div class="card-body">
-                  <h5 class="card-title">Nail Care</h5>
-                  <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This card has even to show that equal height action.</p>
-                  <h4 class="card-text"><small class="text-body-secondary"><strong style="color: rgba(16, 15, 15, 0.852);">Rs:4000.00</strong></small></h4>
-                  <a href="/login" class="btn btn-primary">BOOK NOW</a>
+                    <h5 class="card-title">{{ $service->topic }}</h5>
+                    <p class="card-text">{{ $service->description }}</p>
+                    <h4 class="card-text"><small class="text-body-secondary"><strong style="color: rgba(16, 15, 15, 0.852);">Rs: {{ number_format($service->price, 2) }}</strong></small></h4>
+                    <a href="" class="btn btn-primary" onclick="return confirm('Are you sure you want to book this service?\nIf you are willing to book a treatment.\nYou will need to pay 50% in advance payment.')" style="padding: 10px 20px; background-color: #007bff; color: white; border: 1px solid #007bff; border-radius: 5px; text-decoration: none; cursor: pointer;">BOOK NOW</a>
                 </div>
-              </div>
+            </div>
+            @endforeach
+            @endif
+
           </div>
-
-
-
-
-
-        </div>
       </div>
     </section><!-- End Team Section -->
 
